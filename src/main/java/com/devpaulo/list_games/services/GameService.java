@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+//Classes de serviço recebem dados dos repositórios e processam as regras de negócio.
+
 @Service//agora ele e um componente do sistema, o repostiorio não precisou disso pois extendeu do jpa
 public class GameService {
 
