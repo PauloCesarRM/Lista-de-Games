@@ -1,10 +1,23 @@
 package com.devpaulo.list_games.repositories;
 
 import com.devpaulo.list_games.entities.Game;
+import com.devpaulo.list_games.projections.GameMinProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
-    //este é um componente que acessa os dados e faz a busca no banco de dados
+import java.util.List;
+
+//este é um componente que acessa os dados e faz a busca no banco de dados
 public interface GameRepository extends JpaRepository<Game, Long> {
 
+        @Query(nativeQuery = true, value = """
+		SELECT tb_game.id, tb_game.title, tb_game.game_year AS `year`, tb_game.img_url AS imgUrl,
+		tb_game.short_description AS shortDescription, tb_belonging.position
+		FROM tb_game
+		INNER JOIN tb_belonging ON tb_game.id = tb_belonging.game_id
+		WHERE tb_belonging.list_id = :listId
+		ORDER BY tb_belonging.position
+			""")
+        List<GameMinProjection> searchByList(Long listId);
 
 }
