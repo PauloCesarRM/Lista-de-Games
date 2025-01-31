@@ -2,16 +2,13 @@ package com.devpaulo.list_games.controllers;
 
 //o controller que disponibiliza para API
 
-import com.devpaulo.list_games.dto.GameDTO;
 import com.devpaulo.list_games.dto.GameListDTO;
 import com.devpaulo.list_games.dto.GameMinDTO;
+import com.devpaulo.list_games.dto.ReplacementDTO;
 import com.devpaulo.list_games.services.GameListService;
 import com.devpaulo.list_games.services.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -35,5 +32,11 @@ public class GameListController {
     public List<GameMinDTO> findByList(@PathVariable Long listId){
         List<GameMinDTO> result = gameService.findByList(listId);
         return result;
+    }
+
+
+    @PostMapping(value = "/{listId}/replacement")
+    public void move(@PathVariable Long listId,@RequestBody ReplacementDTO body){
+        gameListService.move(listId, body.getSourceIndex(), body.getDestinationIndex()); //vai pegar o body do POST
     }
 }
